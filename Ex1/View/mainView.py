@@ -2,6 +2,7 @@ from PyQt6.QtGui import QFont
 from PyQt6.QtWidgets import QTabWidget
 
 from Dependencies.viewDependencies import *
+from View.CalculadorDeCM.CartaView import CartaView
 from View.CirculoVIew import CirculoViewClass
 from View.DialogView import DialogoClass
 from View.RetanguloView import RetanguloViewClass
@@ -21,6 +22,8 @@ class MainWindow(QMainWindow):
         f = QFont("Helvetica")
         tabs.setFont(f)
 
+        _tab = CartaView()
+        tabs.addTab(_tab, "carta")
         _tab = RetanguloViewClass()
         tabs.addTab(_tab, "Retangulo")
         _tab = CirculoViewClass()
