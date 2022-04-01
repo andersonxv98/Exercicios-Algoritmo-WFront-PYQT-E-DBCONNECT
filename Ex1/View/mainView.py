@@ -3,7 +3,10 @@ from PyQt6.QtWidgets import QTabWidget
 
 from Dependencies.viewDependencies import *
 from View.CirculoVIew import CirculoViewClass
+from View.DialogView import DialogoClass
 from View.RetanguloView import RetanguloViewClass
+from View.SECONDWINDOW.NewWindow import novaWindClass
+from View.SECONDWINDOW.WindowPrincipal import WindClass
 
 
 class MainWindow(QMainWindow):
@@ -22,7 +25,10 @@ class MainWindow(QMainWindow):
         tabs.addTab(_tab, "Retangulo")
         _tab = CirculoViewClass()
         tabs.addTab(_tab, "Circulo")
-
+        _tab = DialogoClass()
+        tabs.addTab(_tab, "Diálogo")
+        _tab = WindClass()
+        tabs.addTab(_tab, "Nova windows segundo o GU}I")
 
 
 
