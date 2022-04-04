@@ -10,5 +10,5 @@ class CartaModel():
         self.azul = azul
         self.preto = preto
         self.non = non
-
+        self.valorGeralDessaCarta =(vermelho + branco + verde + azul +preto +non)
 

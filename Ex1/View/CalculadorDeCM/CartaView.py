@@ -1,9 +1,9 @@
-from PyQt6.QtGui import QFont
+from PyQt6.QtGui import QFont, QWindow
 from PyQt6.QtWidgets import QMainWindow, QLineEdit, QLabel, QVBoxLayout, QWidget, QPushButton, QHBoxLayout
-
+import pyqtgraph as pg
 from Controllers.ControllDeck import ControllDeck
 from Models.Deck import DeckModel
-from View.CalculadorDeCM.visaoGeralDeckView import DeckViewGeral
+
 
 
 class CartaView(QMainWindow):
@@ -70,11 +70,12 @@ class CartaView(QMainWindow):
         self.layout4 = QHBoxLayout()
         self.layout5 = QVBoxLayout()
         self.layout6 = QVBoxLayout()
+        self.graphic = pg.PlotWidget()
         self.vet_segundolado = {
             "TOTAL CARTAS": QLabel("TOTAL DE CARTAS"),
-
+            "espcamento": QLabel("|"),
             "TERRENOS": QLabel("TOTAL DE TERRENOS"),
-
+            "espcamento2": QLabel("|"),
             "NTERRENOS": QLabel("N Terrenos"),
 
         }
@@ -86,11 +87,14 @@ class CartaView(QMainWindow):
         for lb in self.vet_lb.values():
             self.layout5.addWidget(lb)
 
+
+
+
         self.layout6.addLayout(self.layout4)
         self.layout6.addLayout(self.layout5)
-
+        self.layout6.addWidget(self.graphic)
         self.layout.addLayout(self.layout6)
-
+        self.layout.addWidget(self.graphic)
 
 
         container = QWidget()
@@ -111,7 +115,17 @@ class CartaView(QMainWindow):
         self.AtualizaFront()
 
     def AtualizaFront(self):
-        view = self.Controller.QttGeraldeLands
+        view = self.Controller.QttGeraldeNonLands
+        self.Controller.BuscaMana()
+        self.Controller.CalculaQtdGeralDeLands()
+
         print("VEt_SEgundooskdaosk:  ", self.vet_segundolado["NTERRENOS"])
 
-        self.vet_segundolado["NTERRENOS"].setText(str(view))
+        self.vet_segundolado["NTERRENOS"].setText("Cartas não terrenos: " +str(view))
+        self.PlotGrafico()
+    def PlotGrafico(self):
+        obj_grph =self.Controller.PlotarGrafico()
+        self.graphic = obj_grph
+        self.graphic =obj_grph
+        self.graphic.update()
+        self.update()
