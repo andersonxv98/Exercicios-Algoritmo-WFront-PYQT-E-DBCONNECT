@@ -1,9 +1,10 @@
-from PyQt6.QtGui import QFont, QWindow
+from PyQt6.QtGui import QFont
 from PyQt6.QtWidgets import QMainWindow, QLineEdit, QLabel, QVBoxLayout, QWidget, QPushButton, QHBoxLayout
-import pyqtgraph as pg
+
 from Controllers.ControllDeck import ControllDeck
 from Models.Deck import DeckModel
-
+from View.CalculadorDeCM.GraphCurvaDeMana import Grafico
+from View.CalculadorDeCM.GraphCurvaDeManaLine import GraficoLine
 
 
 class CartaView(QMainWindow):
@@ -47,6 +48,9 @@ class CartaView(QMainWindow):
         self.butao = QPushButton("Inserir No Deck")
         self.butao.clicked.connect(self.InsereNoDeck)
 
+        self.butaoclear = QPushButton("LimparDeck")
+        self.butaoclear.clicked.connect(self.LimparDeck)
+
         self.layout.addWidget(self.butao)
 
 
@@ -70,7 +74,8 @@ class CartaView(QMainWindow):
         self.layout4 = QHBoxLayout()
         self.layout5 = QVBoxLayout()
         self.layout6 = QVBoxLayout()
-        self.graphic = pg.PlotWidget()
+        self.graphic = Grafico()
+        self.graphicLine = GraficoLine()
         self.vet_segundolado = {
             "TOTAL CARTAS": QLabel("TOTAL DE CARTAS"),
             "espcamento": QLabel("|"),
@@ -92,10 +97,11 @@ class CartaView(QMainWindow):
 
         self.layout6.addLayout(self.layout4)
         self.layout6.addLayout(self.layout5)
-        self.layout6.addWidget(self.graphic)
+
         self.layout.addLayout(self.layout6)
         self.layout.addWidget(self.graphic)
-
+        self.layout.addWidget(self.graphicLine)
+        self.layout.addWidget(self.butaoclear)
 
         container = QWidget()
         container.setLayout(self.layout)
@@ -116,16 +122,52 @@ class CartaView(QMainWindow):
 
     def AtualizaFront(self):
         view = self.Controller.QttGeraldeNonLands
+
+
         self.Controller.BuscaMana()
-        self.Controller.CalculaQtdGeralDeLands()
+
+        vermelho, branco, verde, azul, preto=  self.Controller.CalculaQtdGeralDeLands()
+
+
+
+        print("vermelho: ", vermelho)
+        print("branco: ", branco)
+        print("verde: ", verde)
+        print("azul: ", azul)
 
         print("VEt_SEgundooskdaosk:  ", self.vet_segundolado["NTERRENOS"])
 
+        totalTerrenos = self.Controller.lands_corrigido
+        totaldeCartas = view + totalTerrenos
+
         self.vet_segundolado["NTERRENOS"].setText("Cartas não terrenos: " +str(view))
+        self.vet_segundolado["TOTAL CARTAS"].setText("Total de Cartas No Deck: "+str(totaldeCartas))
+        self.vet_segundolado["TERRENOS"].setText("Total de Terrenos: "+str(totalTerrenos))
+        self.vet_lb["lb_vermelho"].setText("Terrenos Vermelhos: "+ str(vermelho))
+        self.vet_lb["lb_branco"].setText("Terrenos Branco: " + str(branco))
+        self.vet_lb["lb_verde"].setText("Terrenos verde: " + str(verde))
+        self.vet_lb["lb_azul"].setText("Terrenos azul: " + str(azul))
+        self.vet_lb["lb_preto"].setText("Terrenos Preto: "+ str(preto))
+
         self.PlotGrafico()
+
     def PlotGrafico(self):
-        obj_grph =self.Controller.PlotarGrafico()
-        self.graphic = obj_grph
-        self.graphic =obj_grph
-        self.graphic.update()
-        self.update()
+        x, y, = self.Controller.EnviarValoresParaGrafico()
+        self.graphic.clear()
+
+        self.graphic.Plotar(x, y)
+        self.graphicLine.Plotar(x,y)
+
+    def LimparDeck(self):
+        self.Controller.ResetDeck()
+        self.graphic.clear()
+        self.vet_segundolado["NTERRENOS"].setText("Cartas não terrenos: " )
+        self.vet_segundolado["TOTAL CARTAS"].setText("Total de Cartas No Deck: " )
+        self.vet_segundolado["TERRENOS"].setText("Total de Terrenos: " )
+        self.vet_lb["lb_vermelho"].setText("Terrenos Vermelhos: " )
+        self.vet_lb["lb_branco"].setText("Terrenos Branco: " )
+        self.vet_lb["lb_verde"].setText("Terrenos verde: " )
+        self.vet_lb["lb_azul"].setText("Terrenos azul: " )
+        self.vet_lb["lb_preto"].setText("Terrenos Preto: " )
+
+

@@ -22,8 +22,8 @@ class ControllDeck():
 
         self.arr_customana = []
         self.arr_qttcustomana =[]
-
-
+        self.total_de_cartas = 0
+        self.lands_corrigido = 0
 
 
 
@@ -50,6 +50,7 @@ class ControllDeck():
 
     def AtualizaValoresNaView(self):
         n_totaldelandsGeral = self.QttGeraldeNonLands
+        self.CalculaQtdGeralDeLands()
         return  n_totaldelandsGeral
 
     def BuscaMana(self):
@@ -75,10 +76,13 @@ class ControllDeck():
         lands_corrigido = ceil(lands)
         
         total_de_cartas = lands_corrigido + self.QttGeraldeNonLands
+
         print("total de cartas: ",total_de_cartas)
         print("total de terrenos: ",lands_corrigido)
-        self.CalculaQtdEespecificadeTerrenoSP(lands_corrigido)
-
+        self.total_de_cartas = total_de_cartas
+        self.lands_corrigido = lands_corrigido
+        vermelho, branco, verde, azul, preto = self.CalculaQtdEespecificadeTerrenoSP(lands_corrigido)
+        return  vermelho, branco, verde, azul, preto
     def CalculaQtdEespecificadeTerrenoSP(self, landsCorrigido):
        correcaoMana = self.soma_manaGeral - self.totalManaIncolor
        percent_vermelho =(self.totalManaVermelha /correcaoMana)
@@ -110,9 +114,9 @@ class ControllDeck():
        print("n terrnos VErde: ", ceil(arr_lands[2]), "valor sem tratamento: ", arr_lands[2])
        print("n terrnos Azul: ", ceil(arr_lands[3]), "valor sem tratamento: ", arr_lands[3])
        print("n terrnos Preto: ", ceil(arr_lands[4]), "valor sem tratamento: ", arr_lands[4])
+       return  arr_lands[0], arr_lands[1], arr_lands[2], arr_lands[3], arr_lands[4]
 
-
-    def PlotarGrafico(self):
+    def EnviarValoresParaGrafico(self):
         arr_brutoCustoMana = self.deck.Count_num_CustoMana()
         print(arr_brutoCustoMana)
         self.arr_qttcustomana = []
@@ -124,8 +128,26 @@ class ControllDeck():
 
         print(self.arr_qttcustomana)
         print(self.arr_customana)
-        grps = Grafico()
-        aclasseGrafico = grps.Plotar(self.arr_customana, self.arr_qttcustomana)
 
-        return aclasseGrafico
-        
+        x, y =(self.arr_customana, self.arr_qttcustomana)
+
+        return x, y
+
+    def ResetDeck(self):
+        self.deck.LimparDeck()
+        self.card = None
+
+        self.QttGeraldeNonLands = 0
+        self.curvaGeral = 0
+        self.soma_manaGeral = 0
+        self.totalManaVermelha = 0
+        self.totalManaBranca = 0
+        self.totalManaVerde = 0
+        self.totalManaAzul = 0
+        self.totalManaPreta = 0
+        self.totalManaIncolor = 0
+
+        self.arr_customana = []
+        self.arr_qttcustomana = []
+        self.total_de_cartas = 0
+        self.lands_corrigido = 0

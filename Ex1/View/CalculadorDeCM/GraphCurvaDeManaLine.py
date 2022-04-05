@@ -5,7 +5,7 @@ from PyQt6 import QtCore
 
 
 
-class Grafico(pg.PlotWidget):
+class GraficoLine(pg.PlotWidget):
     def __init__(self):
         super().__init__()
         self.setBackground("#363636")
@@ -21,18 +21,18 @@ class Grafico(pg.PlotWidget):
     def Plotar(self, arr_customana, arr_qttcustomana):
 
 
-        #pen = pg.mkPen(color="#2BFFAC", width=4, style=QtCore.Qt.PenStyle.DashDotDotLine)
+        pen = pg.mkPen(color="#2BFFAC", width=4, style=QtCore.Qt.PenStyle.DashDotDotLine)
 
 
 
         #["GRAFICO EM LINHAS"]
-        #plt = self.plot(arr_customana, arr_qttcustomana, tittle = "titutlo",name="GastoDeMana",pen=pen, symbol='o', symbolSize=10, symbolBrush='#35CCF5')
-        #plt = self.plot(arr_customana, arr_qttcustomana, tittle="titutlo", name="GastoDeMana", pen=pen, symbol='o', symbolSize=10, symbolBrush='#35CCF5')
+        plt = self.plot(arr_customana, arr_qttcustomana, tittle = "titutlo",name="GastoDeMana",pen=pen, symbol='o', symbolSize=10, symbolBrush='#35CCF5')
+        plt = self.plot(arr_customana, arr_qttcustomana, tittle="titutlo", name="GastoDeMana", pen=pen, symbol='o', symbolSize=10, symbolBrush='#35CCF5')
 
 
         #CRAFICO em coluna
-        bargraph = pg.BarGraphItem(x=arr_customana, height=arr_qttcustomana, width=0.6, brush='g', style="default")
+        #bargraph = pg.BarGraphItem(x=arr_customana, height=arr_qttcustomana, width=0.6, brush='g', style="default")
 
-        self.addItem(bargraph)
+        #self.addItem(bargraph)
 
-        return self
+        return plt
