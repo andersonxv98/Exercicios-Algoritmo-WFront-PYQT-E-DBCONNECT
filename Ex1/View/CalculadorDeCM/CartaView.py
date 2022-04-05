@@ -154,7 +154,7 @@ class CartaView(QMainWindow):
     def PlotGrafico(self):
         x, y, = self.Controller.EnviarValoresParaGrafico()
         self.graphic.clear()
-
+        self.graphicLine.clear()
         self.graphic.Plotar(x, y)
         self.graphicLine.Plotar(x,y)
 
