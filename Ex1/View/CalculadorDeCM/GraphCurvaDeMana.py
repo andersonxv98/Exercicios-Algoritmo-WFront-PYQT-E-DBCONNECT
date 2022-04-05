@@ -34,5 +34,5 @@ class Grafico(pg.PlotWidget):
         bargraph = pg.BarGraphItem(x=arr_customana, height=arr_qttcustomana, width=0.6, brush='g', style="default")
 
         self.addItem(bargraph)
-
+        self.setOpacity(0.3)
         return self
