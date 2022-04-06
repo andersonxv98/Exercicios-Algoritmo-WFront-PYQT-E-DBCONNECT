@@ -28,7 +28,10 @@ class ControllDeck():
 
 
  #construtor
+
+
     def ConstructCarta(self, vermelho, branco, verde, azul, preto, non):
+
         card = CartaModel(int(vermelho), int(branco), int(verde), int(azul), int(preto), int(non))
         self.card = card
         self.AddCardOnDeck()
